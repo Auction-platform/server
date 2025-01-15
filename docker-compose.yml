@@ -1,0 +1,47 @@
+services:
+  php:
+    build:
+      context: ./docker/php
+    container_name: auction-platform-php
+    volumes:
+      - .:/var/www
+    networks:
+      - auction-platform-network
+    user: 1000:1000
+
+  nginx:
+    build:
+      context: ./docker/nginx
+    container_name: auction-platform-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www
+      - nginx-logs:/var/log/nginx
+    depends_on:
+      - php
+    networks:
+      - auction-platform-network
+
+  db:
+    image: postgres:17.0-alpine3.20
+    container_name: auction-platform-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - db-logs:/var/log/postgresql
+    networks:
+      - auction-platform-network
+
+volumes:
+  db-data:
+  db-logs:
+  nginx-logs:
+
+networks:
+  auction-platform-network:
+    driver: bridge
+    name: auction-platform-network
