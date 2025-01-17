@@ -36,6 +36,16 @@ services:
     networks:
       - auction-platform-network
 
+  adminer:
+    image: adminer
+    container_name: auction-platform-adminer
+    ports:
+      - "8081:8080"
+    networks:
+      - auction-platform-network
+    depends_on:
+      - db
+
 volumes:
   db-data:
   db-logs:
