@@ -2,13 +2,13 @@
 
 namespace App\Persistence\Entity;
 
-use App\Persistence\Repository\AuctionImagesRepository;
+use App\Persistence\Repository\AuctionImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: AuctionImagesRepository::class)]
-class AuctionImages
+#[ORM\Entity(repositoryClass: AuctionImageRepository::class)]
+class AuctionImage
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -16,8 +16,9 @@ class AuctionImages
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $imageId = null;
 
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $auctionId = null;
+    #[ORM\ManyToOne(targetEntity: Auction::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Auction $auctionId = null;
 
     #[ORM\Column(length: 255)]
     private ?string $path = null;
@@ -27,12 +28,12 @@ class AuctionImages
         return $this->imageId;
     }
 
-    public function getAuctionId(): ?Uuid
+    public function getAuctionId(): ?Auction
     {
         return $this->auctionId;
     }
 
-    public function setAuctionId(Uuid $auctionId): static
+    public function setAuctionId(Auction $auctionId): static
     {
         $this->auctionId = $auctionId;
 

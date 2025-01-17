@@ -2,14 +2,14 @@
 
 namespace App\Persistence\Entity;
 
-use App\Persistence\Repository\BidsRepository;
+use App\Persistence\Repository\BidRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: BidsRepository::class)]
-class Bids
+#[ORM\Entity(repositoryClass: BidRepository::class)]
+class Bid
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -17,11 +17,13 @@ class Bids
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $bidId = null;
 
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $auctionId = null;
+    #[ORM\ManyToOne(targetEntity: Auction::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Auction $auctionId = null;
 
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $userId = null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $userId = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $amount = null;
@@ -34,24 +36,24 @@ class Bids
         return $this->bidId;
     }
 
-    public function getAuctionId(): ?Uuid
+    public function getAuctionId(): ?Auction
     {
         return $this->auctionId;
     }
 
-    public function setAuctionId(Uuid $auctionId): static
+    public function setAuctionId(Auction $auctionId): static
     {
         $this->auctionId = $auctionId;
 
         return $this;
     }
 
-    public function getUserId(): ?Uuid
+    public function getUserId(): ?User
     {
         return $this->userId;
     }
 
-    public function setUserId(Uuid $userId): static
+    public function setUserId(User $userId): static
     {
         $this->userId = $userId;
 

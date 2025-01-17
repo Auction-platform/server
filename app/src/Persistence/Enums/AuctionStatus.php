@@ -2,7 +2,7 @@
 
 namespace App\Persistence\Enums;
 
-enum AuctionStatuses: string
+enum AuctionStatus: string
 {
     case PENDING = "pending";
     case ACTIVE = 'active';

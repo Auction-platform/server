@@ -2,15 +2,15 @@
 
 namespace App\Persistence\Entity;
 
-use App\Persistence\Enums\AuctionStatuses;
-use App\Persistence\Repository\AuctionsRepository;
+use App\Persistence\Enums\AuctionStatus;
+use App\Persistence\Repository\AuctionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: AuctionsRepository::class)]
-class Auctions
+#[ORM\Entity(repositoryClass: AuctionRepository::class)]
+class Auction
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -18,14 +18,16 @@ class Auctions
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $auctionId = null;
 
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $authorId = null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $authorId = null;
 
-    #[ORM\Column(type: 'uuid', nullable: true)]
-    private ?Uuid $winnerId = null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private ?User $winnerId = null;
 
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $categoryId = null;
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $categoryId = null;
 
     #[ORM\Column(length: 64)]
     private ?string $title = null;
@@ -48,8 +50,8 @@ class Auctions
     #[ORM\Column(type: Types::DATETIMETZ_MUTABLE)]
     private ?\DateTimeInterface $endDate = null;
 
-    #[ORM\Column(enumType: AuctionStatuses::class)]
-    private ?AuctionStatuses $status = null;
+    #[ORM\Column(enumType: AuctionStatus::class)]
+    private ?AuctionStatus $status = null;
 
     #[ORM\Column(type: Types::DATETIMETZ_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
@@ -59,36 +61,36 @@ class Auctions
         return $this->auctionId;
     }
 
-    public function getAuthorId(): ?Uuid
+    public function getAuthorId(): ?User
     {
         return $this->authorId;
     }
 
-    public function setAuthorId(Uuid $authorId): static
+    public function setAuthorId(User $authorId): static
     {
         $this->authorId = $authorId;
 
         return $this;
     }
 
-    public function getWinnerId(): ?Uuid
+    public function getWinnerId(): ?User
     {
         return $this->winnerId;
     }
 
-    public function setWinnerId(?Uuid $winnerId): static
+    public function setWinnerId(?User $winnerId): static
     {
         $this->winnerId = $winnerId;
 
         return $this;
     }
 
-    public function getCategoryId(): ?Uuid
+    public function getCategoryId(): ?Category
     {
         return $this->categoryId;
     }
 
-    public function setCategoryId(Uuid $categoryId): static
+    public function setCategoryId(Category $categoryId): static
     {
         $this->categoryId = $categoryId;
 
@@ -179,12 +181,12 @@ class Auctions
         return $this;
     }
 
-    public function getStatus(): ?AuctionStatuses
+    public function getStatus(): ?AuctionStatus
     {
         return $this->status;
     }
 
-    public function setStatus(AuctionStatuses $status): static
+    public function setStatus(AuctionStatus $status): static
     {
         $this->status = $status;
 

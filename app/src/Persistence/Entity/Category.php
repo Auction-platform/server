@@ -2,13 +2,13 @@
 
 namespace App\Persistence\Entity;
 
-use App\Persistence\Repository\CategoriesRepository;
+use App\Persistence\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: CategoriesRepository::class)]
-class Categories
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+class Category
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]

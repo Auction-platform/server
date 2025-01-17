@@ -2,14 +2,14 @@
 
 namespace App\Persistence\Entity;
 
-use App\Persistence\Repository\TokensRepository;
+use App\Persistence\Repository\TokenRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: TokensRepository::class)]
-class Tokens
+#[ORM\Entity(repositoryClass: TokenRepository::class)]
+class Token
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
@@ -17,8 +17,9 @@ class Tokens
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $tokenId = null;
 
-    #[ORM\Column(type: 'uuid')]
-    private ?Uuid $userId = null;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $userId = null;
 
     #[ORM\Column(length: 15)]
     private ?string $type = null;
@@ -37,12 +38,12 @@ class Tokens
         return $this->tokenId;
     }
 
-    public function getUserId(): ?Uuid
+    public function getUserId(): ?User
     {
         return $this->userId;
     }
 
-    public function setUserId(Uuid $userId): static
+    public function setUserId(User $userId): static
     {
         $this->userId = $userId;
 

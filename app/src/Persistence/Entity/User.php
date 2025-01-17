@@ -2,13 +2,13 @@
 
 namespace App\Persistence\Entity;
 
-use App\Persistence\Repository\UsersRepository;
+use App\Persistence\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+class User
 {
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
