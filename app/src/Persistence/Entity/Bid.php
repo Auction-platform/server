@@ -18,11 +18,11 @@ class Bid
     private ?Uuid $bidId = null;
 
     #[ORM\ManyToOne(targetEntity: Auction::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "auction_id", referencedColumnName: "auction_id", nullable: false)]
     private ?Auction $auctionId = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "user_id", nullable: false)]
     private ?User $userId = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]

@@ -17,7 +17,7 @@ class AuctionImage
     private ?Uuid $imageId = null;
 
     #[ORM\ManyToOne(targetEntity: Auction::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "auction_id", referencedColumnName: "auction_id", nullable: false)]
     private ?Auction $auctionId = null;
 
     #[ORM\Column(length: 255)]

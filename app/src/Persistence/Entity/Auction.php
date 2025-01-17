@@ -19,14 +19,15 @@ class Auction
     private ?Uuid $auctionId = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "author_id", referencedColumnName: "user_id", nullable: false)]
     private ?User $authorId = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "winner_id", referencedColumnName: "user_id")]
     private ?User $winnerId = null;
 
     #[ORM\ManyToOne(targetEntity: Category::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "category_id", referencedColumnName: "category_id", nullable: false)]
     private ?Category $categoryId = null;
 
     #[ORM\Column(length: 64)]

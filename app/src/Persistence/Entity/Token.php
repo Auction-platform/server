@@ -18,7 +18,7 @@ class Token
     private ?Uuid $tokenId = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "user_id", nullable: false)]
     private ?User $userId = null;
 
     #[ORM\Column(length: 15)]
